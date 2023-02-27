@@ -4,6 +4,12 @@ import styled from "styled-components";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import PrioritySelector from "../components/PrioritySelector";
 import InputAdornment from "@mui/material/InputAdornment";
+import React, { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
+import { nanoid } from "nanoid";
+import { PriorityOption, Task, TaskPriority } from "../models/Todo";
+import { useTodoContext } from "../hooks/todo";
+
+type Props = {};
 
 const Container = styled.div`
 	/* border: 1px solid red; */
@@ -21,7 +27,47 @@ const TaskInput = styled(OutlinedInput)`
 	}
 `;
 
-export const TodoHeader = () => {
+const initialTask = { id: "", label: "", priority: TaskPriority.UNSET, completed: false };
+
+export const TodoHeader: React.FC<Props> = ({}) => {
+	const { createTask } = useTodoContext();
+	const [newTask, setNewTask] = useState<Task>(initialTask);
+
+	const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setNewTask((task) => {
+			return {
+				...task,
+				label: e.target.value,
+			};
+		});
+	};
+
+	const handleNewTaskPriorityChange = (priority: TaskPriority) => {
+		setNewTask((task) => {
+			return {
+				...task,
+				priority,
+			};
+		});
+	};
+
+	const handleNewTaskEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			addTask();
+		}
+	};
+
+	const handleNewTaskClick = (e: MouseEvent<HTMLButtonElement>) => {
+		addTask();
+	};
+
+	const addTask = () => {
+		createTask({
+			...newTask,
+			id: nanoid(),
+		});
+	};
+
 	return (
 		<Container>
 			<TaskInput
@@ -32,11 +78,13 @@ export const TodoHeader = () => {
 				fullWidth
 				endAdornment={
 					<InputAdornment position="end">
-						<PrioritySelector />
+						<PrioritySelector onChange={handleNewTaskPriorityChange} />
 					</InputAdornment>
 				}
+				onChange={handleNewTaskLabelChange}
+				onKeyDown={handleNewTaskEnter}
 			/>
-			<Button variant="contained" color="success">
+			<Button variant="contained" color="success" onClick={handleNewTaskClick}>
 				<AddIcon />
 			</Button>
 		</Container>

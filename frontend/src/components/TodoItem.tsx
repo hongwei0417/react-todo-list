@@ -10,6 +10,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import FolderIcon from "@mui/icons-material/Folder";
+import { Task, TaskPriority } from "../models/Todo";
+import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useState } from "react";
+
+type Props = {
+	task: Task;
+	onChange?: (task: Task) => void;
+	onDelete?: (task: Task) => void;
+};
 
 const Container = styled(Paper)`
 	height: 70px;
@@ -34,11 +42,40 @@ const TodoText = styled(Input)`
 	}
 `;
 
-export const TodoItem = () => {
+export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
+	const [cacheTask, setCacheTask] = useState<Task>(task);
+
+	useEffect(() => {
+		setCacheTask((t) => task);
+	}, [task]);
+
+	const handleLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setCacheTask((t) => {
+			return {
+				...t,
+				label: e.target.value,
+			};
+		});
+	};
+
+	const handleUnFocusLabel = (e: FocusEvent<HTMLInputElement>) => {
+		onChange?.(cacheTask);
+	};
+
+	const handlePriorityChange = (priority: TaskPriority) => {
+		const task = { ...cacheTask, priority };
+		setCacheTask((t) => task);
+		onChange?.(task);
+	};
+
+	const handleDeleteTask = (e: MouseEvent<HTMLButtonElement>) => {
+		onDelete?.(cacheTask);
+	};
+
 	return (
 		<ListItem
 			secondaryAction={
-				<IconButton edge="end">
+				<IconButton edge="end" onClick={handleDeleteTask}>
 					<DeleteIcon />
 				</IconButton>
 			}
@@ -48,13 +85,15 @@ export const TodoItem = () => {
 			</ListItemIcon>
 			<TodoText
 				type="text"
-				value="Hello Kevin You Are Good!"
+				value={cacheTask.label}
 				fullWidth
 				endAdornment={
 					<InputAdornment position="end">
-						<PrioritySelector />
+						<PrioritySelector value={cacheTask.priority} onChange={handlePriorityChange} />
 					</InputAdornment>
 				}
+				onBlur={handleUnFocusLabel}
+				onChange={handleLabelChange}
 			/>
 		</ListItem>
 		// <Container elevation={24}>

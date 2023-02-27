@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
 import "./App.css";
 import TextField from "@mui/material/TextField";
-import TodoList from "./containers/Todo";
+import Todo from "./containers/Todo";
 
 function App() {
 	const darkTheme = createTheme({
@@ -14,7 +14,7 @@ function App() {
 	return (
 		<div className="App">
 			<ThemeProvider theme={darkTheme}>
-				<TodoList />
+				<Todo />
 			</ThemeProvider>
 		</div>
 	);
