@@ -1,8 +1,9 @@
-import { FunctionBar } from "./FunctionBar";
+import { TodoHeader } from "./TodoHeader";
 import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { TodoItemList } from "./TodoItemList";
 import Divider from "@mui/material/Divider";
+import { Filter } from "../components/Filter";
 
 const TodoContainer = styled(Card)`
 	width: 50vw;
@@ -23,10 +24,11 @@ const Title = styled.h2``;
 export default function TodoList() {
 	return (
 		<TodoContainer>
-			<Title>TODO LIST DEMO</Title>
+			<Title>TODO LIST</Title>
 			<ContentContainer>
-				<FunctionBar />
+				<TodoHeader />
 				<Divider />
+				<Filter />
 				<TodoItemList />
 			</ContentContainer>
 		</TodoContainer>
