@@ -1,6 +1,6 @@
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
+import Input, { InputProps } from "@mui/material/Input";
 import Paper from "@mui/material/Paper";
 import styled from "styled-components";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -36,21 +36,22 @@ const CheckInput = styled(Checkbox)`
 	}
 `;
 
-const TodoText = styled(Input)`
+const TodoText = styled(Input)<InputProps & { isCompleted: boolean }>`
+	text-decoration: ${(p) => (p.isCompleted ? "line-through" : "unset")};
 	&:before {
 		border: none !important;
 	}
 `;
 
 export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
-	const [cacheTask, setCacheTask] = useState<Task>(task);
+	const [innerTask, setInnerTask] = useState<Task>(task);
 
 	useEffect(() => {
-		setCacheTask((t) => task);
+		setInnerTask((t) => task);
 	}, [task]);
 
 	const handleLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setCacheTask((t) => {
+		setInnerTask((t) => {
 			return {
 				...t,
 				label: e.target.value,
@@ -59,17 +60,19 @@ export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
 	};
 
 	const handleUnFocusLabel = (e: FocusEvent<HTMLInputElement>) => {
-		onChange?.(cacheTask);
+		onChange?.(innerTask);
 	};
 
 	const handlePriorityChange = (priority: TaskPriority) => {
-		const task = { ...cacheTask, priority };
-		setCacheTask((t) => task);
-		onChange?.(task);
+		onChange?.({ ...innerTask, priority });
+	};
+
+	const handleCheckTask = (e: ChangeEvent<HTMLInputElement>) => {
+		onChange?.({ ...innerTask, isCompleted: !innerTask.isCompleted });
 	};
 
 	const handleDeleteTask = (e: MouseEvent<HTMLButtonElement>) => {
-		onDelete?.(cacheTask);
+		onDelete?.(innerTask);
 	};
 
 	return (
@@ -81,17 +84,19 @@ export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
 			}
 		>
 			<ListItemIcon>
-				<CheckInput edge="start" />
+				<CheckInput edge="start" checked={innerTask.isCompleted} onChange={handleCheckTask} />
 			</ListItemIcon>
 			<TodoText
 				type="text"
-				value={cacheTask.label}
+				color="warning"
+				value={innerTask.label}
 				fullWidth
 				endAdornment={
 					<InputAdornment position="end">
-						<PrioritySelector value={cacheTask.priority} onChange={handlePriorityChange} />
+						<PrioritySelector value={innerTask.priority} onChange={handlePriorityChange} />
 					</InputAdornment>
 				}
+				isCompleted={innerTask.isCompleted}
 				onBlur={handleUnFocusLabel}
 				onChange={handleLabelChange}
 			/>

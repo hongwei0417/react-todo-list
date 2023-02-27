@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { TodoItem } from "../components/TodoItem";
 import Divider from "@mui/material/Divider";
@@ -24,17 +24,30 @@ const CategoryDivider = styled(Divider)`
 export const TodoItemList: React.FC<Props> = ({ tasks }) => {
 	const { changeTask, deleteTask } = useTodoContext();
 
+	const todoTasks = useMemo<Task[]>(() => {
+		return tasks.filter((t) => !t.isCompleted);
+	}, [tasks]);
+
+	const completedTasks = useMemo<Task[]>(() => {
+		return tasks.filter((t) => t.isCompleted);
+	}, [tasks]);
+
 	return (
 		<Container>
 			<List>
-				{tasks.map((task, i) => {
-					return <TodoItem key={i} task={task} onChange={changeTask} onDelete={deleteTask} />;
+				<CategoryDivider textAlign="center">Todo Items ({todoTasks.length})</CategoryDivider>
+				{todoTasks.map((task, i) => {
+					return <TodoItem key={task.id} task={task} onChange={changeTask} onDelete={deleteTask} />;
 				})}
-				{/* <CategoryDivider textAlign="center">Todo Items</CategoryDivider> */}
+				<CategoryDivider textAlign="center">
+					Completed Items ({completedTasks.length})
+				</CategoryDivider>
+				{completedTasks.map((task, i) => {
+					return <TodoItem key={task.id} task={task} onChange={changeTask} onDelete={deleteTask} />;
+				})}
 				{/* {[1, 2, 3, 4, 5].map((i) => {
 					return <TodoItem key={i} />;
 				})}
-				<CategoryDivider textAlign="center">Completed Items</CategoryDivider>
 				{[1, 2, 3, 4, 5].map((i) => {
 					return <TodoItem key={i} />;
 				})} */}

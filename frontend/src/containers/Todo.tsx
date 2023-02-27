@@ -35,6 +35,7 @@ export default function TodoList() {
 	};
 
 	const handleChangeTask = (task: Task) => {
+		console.log(task);
 		setTasks((tasks) => {
 			return tasks.map((t) => {
 				return t.id === task.id ? task : t;

@@ -2,7 +2,7 @@ export type Task = {
 	id: string;
 	label: string;
 	priority: TaskPriority;
-	completed: boolean;
+	isCompleted: boolean;
 };
 
 export type PriorityOption = {

@@ -27,7 +27,7 @@ const TaskInput = styled(OutlinedInput)`
 	}
 `;
 
-const initialTask = { id: "", label: "", priority: TaskPriority.UNSET, completed: false };
+const initialTask: Task = { id: "", label: "", priority: TaskPriority.UNSET, isCompleted: false };
 
 export const TodoHeader: React.FC<Props> = ({}) => {
 	const { createTask } = useTodoContext();
