@@ -206,11 +206,12 @@ Error generating stack: `+i.message+`
 	justify-content: space-between;
 `,A$=Rt(sg)``,z$=({})=>{const{filterCondition:e,updateFilterConditions:t}=Us(),[n,r]=S.useState(""),[o,i]=S.useState(yt.UNSET);return S.useEffect(()=>{t({...e,label:n,priority:o})},[n,o]),we(M$,{children:[R(A$,{type:"text",placeholder:"Enter any keyword",color:"warning",startAdornment:R(md,{position:"start",children:R(cg,{})}),onChange:a=>{r(u=>a.target.value)}}),R(hd,{defaultIcon:R(dg,{}),onChange:a=>{i(u=>a)}})]})},L$=Rt(Pb)`
 	width: 75vw;
-	height: 70vh;
+	height: 80vh;
 	box-sizing: border-box;
 	padding: 2rem;
 	@media (max-width: 768px) {
 		width: 90vw;
+		height: 90vh;
 	}
 `,F$=Rt.div`
 	width: 100%;
