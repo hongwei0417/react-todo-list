@@ -11,9 +11,14 @@ import { TodoStore } from "../models/Todo";
 import { FilterCondition } from "../models/Filter";
 
 const TodoContainer = styled(Card)`
-	width: 50vw;
-	height: 70vh;
-	padding: 30px;
+	width: 75vw;
+	height: 80vh;
+	box-sizing: border-box;
+	padding: 2rem;
+	@media (max-width: 768px) {
+		width: 90vw;
+		height: 90vh;
+	}
 `;
 
 const ContentContainer = styled.div`
@@ -24,7 +29,9 @@ const ContentContainer = styled.div`
 	gap: 1.5rem;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+	text-align: center;
+`;
 
 export default function TodoList() {
 	const [tasks, setTasks] = useState<Task[]>([]);
