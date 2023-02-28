@@ -219,4 +219,6 @@ Error generating stack: `+i.message+`
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-`,D$=Rt.h2``;function B$(){const[e,t]=S.useState([]),[n,r]=S.useState({}),l={tasks:e,filterCondition:n,updateTasks:s=>{t(a=>s)},updateFilterConditions:s=>{r(a=>s)}};return R(ig.Provider,{value:l,children:we(L$,{children:[R(D$,{children:"TODO LIST"}),we(F$,{children:[R(wb,{}),R(ng,{}),R(z$,{}),R(b$,{})]})]})})}function j$(){const e=M0({palette:{mode:"dark"}});return R("div",{className:"App",children:R(lw,{theme:e,children:R(B$,{})})})}Pa.createRoot(document.getElementById("root")).render(R(lt.StrictMode,{children:R(a1,{children:R(j$,{})})}));
+`,D$=Rt.h2`
+	text-align: center;
+`;function B$(){const[e,t]=S.useState([]),[n,r]=S.useState({}),l={tasks:e,filterCondition:n,updateTasks:s=>{t(a=>s)},updateFilterConditions:s=>{r(a=>s)}};return R(ig.Provider,{value:l,children:we(L$,{children:[R(D$,{children:"TODO LIST"}),we(F$,{children:[R(wb,{}),R(ng,{}),R(z$,{}),R(b$,{})]})]})})}function j$(){const e=M0({palette:{mode:"dark"}});return R("div",{className:"App",children:R(lw,{theme:e,children:R(B$,{})})})}Pa.createRoot(document.getElementById("root")).render(R(lt.StrictMode,{children:R(a1,{children:R(j$,{})})}));
