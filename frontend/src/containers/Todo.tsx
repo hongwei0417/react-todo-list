@@ -3,10 +3,12 @@ import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { TodoItemList } from "./TodoItemList";
 import Divider from "@mui/material/Divider";
-import { Filter } from "../components/Filter";
+import { TodoFilter } from "./TodoFilter";
 import { ChangeEvent, createContext, useState } from "react";
-import { Task, TodoStore } from "../models/Todo";
 import { TodoContext } from "../hooks/todo";
+import { Task } from "../models/Task";
+import { TodoStore } from "../models/Todo";
+import { FilterCondition } from "../models/Filter";
 
 const TodoContainer = styled(Card)`
 	width: 50vw;
@@ -26,33 +28,21 @@ const Title = styled.h2``;
 
 export default function TodoList() {
 	const [tasks, setTasks] = useState<Task[]>([]);
+	const [filterCondition, setFilterCondition] = useState<FilterCondition>({});
 
-	const handleNewTask = (task: Task) => {
-		console.log(task);
-		setTasks((tasks) => {
-			return [...tasks, task];
-		});
+	const handleUpdateTasks = (tasks: Task[]) => {
+		setTasks((t) => tasks);
 	};
 
-	const handleChangeTask = (task: Task) => {
-		console.log(task);
-		setTasks((tasks) => {
-			return tasks.map((t) => {
-				return t.id === task.id ? task : t;
-			});
-		});
-	};
-
-	const handleDeleteTask = (task: Task) => {
-		setTasks((tasks) => {
-			return tasks.filter((t) => t.id !== task.id);
-		});
+	const handleFilterConditionChange = (condition: FilterCondition) => {
+		setFilterCondition((c) => condition);
 	};
 
 	const contextValue: TodoStore = {
-		createTask: handleNewTask,
-		changeTask: handleChangeTask,
-		deleteTask: handleDeleteTask,
+		tasks,
+		filterCondition,
+		updateTasks: handleUpdateTasks,
+		updateFilterConditions: handleFilterConditionChange,
 	};
 
 	return (
@@ -62,8 +52,8 @@ export default function TodoList() {
 				<ContentContainer>
 					<TodoHeader />
 					<Divider />
-					<Filter />
-					<TodoItemList tasks={tasks} />
+					<TodoFilter />
+					<TodoItemList />
 				</ContentContainer>
 			</TodoContainer>
 		</TodoContext.Provider>

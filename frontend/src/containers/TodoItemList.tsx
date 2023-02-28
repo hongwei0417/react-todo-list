@@ -1,14 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { TodoItem } from "../components/TodoItem";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import { Task } from "../models/Todo";
 import { useTodoContext } from "../hooks/todo";
+import { Task } from "../models/Task";
+import { useTaskFilter } from "../hooks/filter";
 
-type Props = {
-	tasks: Task[];
-};
+type Props = {};
 
 const Container = styled.div`
 	/* border: 1px solid green; */
@@ -21,38 +20,50 @@ const CategoryDivider = styled(Divider)`
 	padding: 1rem 0;
 `;
 
-export const TodoItemList: React.FC<Props> = ({ tasks }) => {
-	const { changeTask, deleteTask } = useTodoContext();
+export const TodoItemList: React.FC<Props> = ({}) => {
+	const { tasks, updateTasks } = useTodoContext();
+	const { todoTasks, completedTasks } = useTaskFilter();
 
-	const todoTasks = useMemo<Task[]>(() => {
-		return tasks.filter((t) => !t.isCompleted);
-	}, [tasks]);
+	const handleChangeTask = (task: Task) => {
+		updateTasks(
+			tasks.map((t) => {
+				return t.id === task.id ? task : t;
+			})
+		);
+	};
 
-	const completedTasks = useMemo<Task[]>(() => {
-		return tasks.filter((t) => t.isCompleted);
-	}, [tasks]);
+	const handleDeleteTask = (task: Task) => {
+		updateTasks(tasks.filter((t) => t.id !== task.id));
+	};
 
 	return (
 		<Container>
 			<List>
 				<CategoryDivider textAlign="center">Todo Items ({todoTasks.length})</CategoryDivider>
 				{todoTasks.map((task, i) => {
-					return <TodoItem key={task.id} task={task} onChange={changeTask} onDelete={deleteTask} />;
+					return (
+						<TodoItem
+							key={task.id}
+							task={task}
+							onChange={handleChangeTask}
+							onDelete={handleDeleteTask}
+						/>
+					);
 				})}
 				<CategoryDivider textAlign="center">
 					Completed Items ({completedTasks.length})
 				</CategoryDivider>
 				{completedTasks.map((task, i) => {
-					return <TodoItem key={task.id} task={task} onChange={changeTask} onDelete={deleteTask} />;
+					return (
+						<TodoItem
+							key={task.id}
+							task={task}
+							onChange={handleChangeTask}
+							onDelete={handleDeleteTask}
+						/>
+					);
 				})}
-				{/* {[1, 2, 3, 4, 5].map((i) => {
-					return <TodoItem key={i} />;
-				})}
-				{[1, 2, 3, 4, 5].map((i) => {
-					return <TodoItem key={i} />;
-				})} */}
 			</List>
-			<Divider />
 		</Container>
 	);
 };

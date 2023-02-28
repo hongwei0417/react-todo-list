@@ -10,8 +10,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import FolderIcon from "@mui/icons-material/Folder";
-import { Task, TaskPriority } from "../models/Todo";
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useState } from "react";
+import { Task, TaskPriority } from "../models/Task";
 
 type Props = {
 	task: Task;
@@ -36,8 +36,9 @@ const CheckInput = styled(Checkbox)`
 	}
 `;
 
-const TodoText = styled(Input)<InputProps & { isCompleted: boolean }>`
-	text-decoration: ${(p) => (p.isCompleted ? "line-through" : "unset")};
+const TodoText = styled(Input)<InputProps & { $isCompleted: boolean }>`
+	text-decoration: ${(p) => (p.$isCompleted ? "line-through" : "unset")};
+	opacity: ${(p) => (p.$isCompleted ? 0.5 : 1)};
 	&:before {
 		border: none !important;
 	}
@@ -96,7 +97,7 @@ export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
 						<PrioritySelector value={innerTask.priority} onChange={handlePriorityChange} />
 					</InputAdornment>
 				}
-				isCompleted={innerTask.isCompleted}
+				$isCompleted={innerTask.isCompleted}
 				onBlur={handleUnFocusLabel}
 				onChange={handleLabelChange}
 			/>

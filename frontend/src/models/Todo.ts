@@ -1,28 +1,9 @@
-export type Task = {
-	id: string;
-	label: string;
-	priority: TaskPriority;
-	isCompleted: boolean;
-};
-
-export type PriorityOption = {
-	icon: React.ReactNode;
-} & Option<TaskPriority>;
+import { FilterCondition } from "./Filter";
+import { Task } from "./Task";
 
 export type TodoStore = {
-	createTask: (task: Task) => void;
-	changeTask: (task: Task) => void;
-	deleteTask: (task: Task) => void;
+	tasks: Task[];
+	filterCondition: FilterCondition;
+	updateTasks: (tasks: Task[]) => void;
+	updateFilterConditions: (condition: FilterCondition) => void;
 };
-
-export type Option<T> = {
-	name: string;
-	value: T;
-};
-
-export enum TaskPriority {
-	UNSET = "UNSET",
-	LOW = "LOW",
-	NORMAL = "NORMAL",
-	HIGH = "HIGH",
-}
