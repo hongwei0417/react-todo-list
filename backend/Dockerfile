@@ -22,4 +22,4 @@ RUN yarn install --production && \
   yarn autoclean --force && \
   yarn cache clean
 
-CMD ["node", "dist/src/index.js"]
+CMD ["node", "dist/index.js"]

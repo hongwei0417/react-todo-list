@@ -2,7 +2,7 @@ import * as z from "zod";
 import { db } from "../../db";
 import { WithId } from "mongodb";
 
-const Todo = z.object({
+export const Todo = z.object({
 	label: z.string(),
 	isCompleted: z.boolean().default(false),
 });
