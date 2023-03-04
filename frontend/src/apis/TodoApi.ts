@@ -16,4 +16,4 @@ export const createTodo = (data: Task) => TodoAPI.post<TaskDto>("/", data);
 
 export const updateTodo = (id: string, data: Task) => TodoAPI.put<TaskDto>(`/${id}`, data);
 
-export const deleteTodo = (id: string) => TodoAPI.delete(`/{id}`);
+export const deleteTodo = (id: string) => TodoAPI.delete(`/${id}`);
