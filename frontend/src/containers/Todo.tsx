@@ -4,11 +4,13 @@ import styled from "styled-components";
 import { TodoItemList } from "./TodoItemList";
 import Divider from "@mui/material/Divider";
 import { TodoFilter } from "./TodoFilter";
-import { ChangeEvent, createContext, useState } from "react";
-import { TodoContext } from "../hooks/todo";
+import { ChangeEvent, createContext, useEffect, useState } from "react";
+import { TodoContext } from "../hooks/useTodoContext";
 import { Task } from "../models/Task";
 import { TodoStore } from "../models/Todo";
 import { FilterCondition } from "../models/Filter";
+import { getAllTodos } from "../apis/TodoApi";
+import { useTaskHandler } from "../hooks/useTaskHandler";
 
 const TodoContainer = styled(Card)`
 	width: 75vw;
@@ -36,8 +38,16 @@ const Title = styled.h2`
 export default function TodoList() {
 	const [tasks, setTasks] = useState<Task[]>([]);
 	const [filterCondition, setFilterCondition] = useState<FilterCondition>({});
+	const { getAllTask } = useTaskHandler();
+
+	useEffect(() => {
+		getAllTask().then((data) => {
+			handleUpdateTasks(data);
+		});
+	}, []);
 
 	const handleUpdateTasks = (tasks: Task[]) => {
+		console.log(tasks);
 		setTasks((t) => tasks);
 	};
 

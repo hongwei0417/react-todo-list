@@ -1,5 +1,12 @@
 import { Option } from "./Common";
 
+export type TaskDto = {
+	_id?: string;
+	label: string;
+	priority: TaskPriority;
+	isCompleted: boolean;
+};
+
 export type Task = {
 	id: string;
 	label: string;

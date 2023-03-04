@@ -15,7 +15,7 @@ import { Task, TaskPriority } from "../models/Task";
 
 type Props = {
 	task: Task;
-	onChange?: (task: Task) => void;
+	onChange?: (task: Task, delay?: number) => void;
 	onDelete?: (task: Task) => void;
 };
 
@@ -58,6 +58,7 @@ export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
 				label: e.target.value,
 			};
 		});
+		onChange?.(innerTask, 1000);
 	};
 
 	const handleUnFocusLabel = (e: FocusEvent<HTMLInputElement>) => {
@@ -102,19 +103,5 @@ export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
 				onChange={handleLabelChange}
 			/>
 		</ListItem>
-		// <Container elevation={24}>
-		// 	<CheckInput />
-		// 	<TodoText
-		// 		type="text"
-		// 		endAdornment={
-		// 			<InputAdornment position="end">
-		// 				<PrioritySelector />
-		// 			</InputAdornment>
-		// 		}
-		// 	/>
-		// 	<IconButton>
-		// 		<DeleteIcon />
-		// 	</IconButton>
-		// </Container>
 	);
 };

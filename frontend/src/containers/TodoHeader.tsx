@@ -6,8 +6,10 @@ import PrioritySelector from "../components/PrioritySelector";
 import InputAdornment from "@mui/material/InputAdornment";
 import React, { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
-import { useTodoContext } from "../hooks/todo";
+import { useTodoContext } from "../hooks/useTodoContext";
 import { Task, TaskPriority } from "../models/Task";
+import { getAllTodos } from "../apis/TodoApi";
+import { useTaskHandler } from "../hooks/useTaskHandler";
 
 type Props = {};
 
@@ -32,6 +34,7 @@ const initialTask: Task = { id: "", label: "", priority: TaskPriority.UNSET, isC
 export const TodoHeader: React.FC<Props> = ({}) => {
 	const { tasks, updateTasks } = useTodoContext();
 	const [newTask, setNewTask] = useState<Task>(initialTask);
+	const { getAllTask, createTask } = useTaskHandler();
 
 	const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setNewTask((task) => {
@@ -61,12 +64,9 @@ export const TodoHeader: React.FC<Props> = ({}) => {
 		addTask();
 	};
 
-	const addTask = () => {
-		const task = {
-			...newTask,
-			id: nanoid(),
-		};
-		updateTasks([...tasks, task]);
+	const addTask = async () => {
+		const resTask = await createTask(newTask);
+		updateTasks([...tasks, resTask]);
 	};
 
 	return (

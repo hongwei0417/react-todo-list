@@ -4,7 +4,7 @@ import { Todos } from "./todo.model";
 
 beforeAll(async () => {
 	try {
-		// await Todos.drop();
+		await Todos.drop();
 	} catch (error) {
 		console.log(error);
 	}
