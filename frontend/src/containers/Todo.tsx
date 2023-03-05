@@ -47,7 +47,6 @@ export default function TodoList() {
 	}, []);
 
 	const handleUpdateTasks = (tasks: Task[]) => {
-		console.log(tasks);
 		setTasks((t) => tasks);
 	};
 

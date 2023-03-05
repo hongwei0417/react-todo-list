@@ -41,7 +41,7 @@ const taskPriorityOptions: PriorityOption[] = Object.values(taskPriorityOptionMa
 
 const Container = styled.div``;
 
-const PrioritySelector: React.FC<Props> = ({ defaultIcon, value, onChange }) => {
+const PrioritySelector: React.FC<Props> = ({ defaultIcon, value, onChange, ...props }) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [priorityOption, setPriorityOption] = useState<PriorityOption>(taskPriorityOptions[0]);
 	const open = Boolean(anchorEl);
@@ -73,7 +73,7 @@ const PrioritySelector: React.FC<Props> = ({ defaultIcon, value, onChange }) => 
 
 	return (
 		<Container>
-			<IconButton color="default" onClick={handleOpenMenu}>
+			<IconButton {...props} color="default" onClick={handleOpenMenu}>
 				{displayIcon}
 			</IconButton>
 			<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>

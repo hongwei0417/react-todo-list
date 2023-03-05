@@ -6,11 +6,12 @@ import { useTodoContext } from "./useTodoContext";
 export const useTaskHandler = () => {
 	const getAllTask = async (): Promise<Task[]> => {
 		const res = await getAllTodos();
-		console.log(res.data);
 		return res.data.map<Task>((t) => {
 			return {
-				...t,
 				id: t._id!,
+				label: t.label,
+				isCompleted: t.isCompleted,
+				priority: t.priority,
 			};
 		});
 	};
@@ -19,8 +20,10 @@ export const useTaskHandler = () => {
 		try {
 			const res = await createTodo(task);
 			return {
-				...res.data,
 				id: res.data._id!,
+				label: res.data.label,
+				isCompleted: res.data.isCompleted,
+				priority: res.data.priority,
 			};
 		} catch (error) {
 			throw error;
@@ -31,8 +34,10 @@ export const useTaskHandler = () => {
 		try {
 			const res = await updateTodo(task.id, task);
 			return {
-				...res.data,
 				id: res.data._id!,
+				label: res.data.label,
+				isCompleted: res.data.isCompleted,
+				priority: res.data.priority,
 			};
 		} catch (error) {
 			throw error;

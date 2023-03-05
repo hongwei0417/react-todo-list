@@ -17,7 +17,7 @@ export const useTaskFilter = () => {
 	};
 
 	const filterPriority = (tasks: Task[]) => {
-		if (filterCondition.priority !== TaskPriority.UNSET) {
+		if (filterCondition.priority) {
 			return tasks.filter((task) => task.priority === filterCondition.priority);
 		}
 		return tasks;

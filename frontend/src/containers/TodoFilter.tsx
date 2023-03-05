@@ -43,6 +43,7 @@ export const TodoFilter: React.FC<Props> = ({}) => {
 		<Container>
 			<SearchInput
 				type="text"
+				data-testid="filterKeywordInput"
 				placeholder="Enter any keyword"
 				color="warning"
 				startAdornment={
@@ -53,6 +54,7 @@ export const TodoFilter: React.FC<Props> = ({}) => {
 				onChange={handleSearchChange}
 			/>
 			<PrioritySelector
+				data-testid="filterPriorityButton"
 				defaultIcon={<FilterListRoundedIcon />}
 				onChange={handlePrioritySelectorChange}
 			/>

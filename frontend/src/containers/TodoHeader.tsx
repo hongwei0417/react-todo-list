@@ -20,7 +20,13 @@ const Container = styled.div`
 	max-height: 10%;
 `;
 
-const TaskInput = styled(OutlinedInput)`
+const TaskInput = styled((props) => (
+	<OutlinedInput
+		inputProps={{
+			"data-testid": props["data-testid"],
+		}}
+	/>
+))`
 	& legend {
 		display: none;
 	}
@@ -74,6 +80,7 @@ export const TodoHeader: React.FC<Props> = ({}) => {
 			<TaskInput
 				label="Task"
 				type="text"
+				data-testid="addTaskInput"
 				color="warning"
 				placeholder="Enter some tasks"
 				fullWidth
@@ -85,7 +92,12 @@ export const TodoHeader: React.FC<Props> = ({}) => {
 				onChange={handleNewTaskLabelChange}
 				onKeyDown={handleNewTaskEnter}
 			/>
-			<Button variant="contained" color="success" onClick={handleNewTaskClick}>
+			<Button
+				data-testid="addTaskButton"
+				variant="contained"
+				color="success"
+				onClick={handleNewTaskClick}
+			>
 				<AddIcon />
 			</Button>
 		</Container>

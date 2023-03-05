@@ -8,5 +8,10 @@ export default defineConfig(({ mode }) => {
 	return {
 		plugins: [react()],
 		base: "/react-todo-list",
+		test: {
+			global: true,
+			environment: "jsdom",
+			setupFiles: "src/setupTests.ts",
+		},
 	};
 });
