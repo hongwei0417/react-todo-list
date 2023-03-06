@@ -7,6 +7,11 @@ import { useTodoContext } from "../hooks/useTodoContext";
 import { Task } from "../models/Task";
 import { useTaskFilter } from "../hooks/useTaskFilter";
 import { useTaskHandler } from "../hooks/useTaskHandler";
+import * as O from "fp-ts/Option";
+import * as A from "fp-ts/Array";
+import * as TE from "fp-ts/TaskEither";
+import * as T from "fp-ts/Task";
+import { pipe } from "fp-ts/lib/function";
 
 type Props = {};
 
@@ -24,28 +29,41 @@ const CategoryDivider = styled(Divider)`
 export const TodoItemList: React.FC<Props> = ({}) => {
 	const { tasks, updateTasks } = useTodoContext();
 	const { todoTasks, completedTasks } = useTaskFilter();
-	const { updateTask, deleteTask } = useTaskHandler();
+	const { updateTask$, deleteTask$ } = useTaskHandler();
 	const debounceTimer = useRef<NodeJS.Timeout>();
 
 	const handleChangeTask = (task: Task, delay: number = 0) => {
 		clearTimeout(debounceTimer.current);
 		debounceTimer.current = setTimeout(async () => {
-			const newTask = await updateTask(task);
-			if (newTask) {
-				updateTasks(
-					tasks.map((t) => {
-						return t.id === newTask.id ? newTask : t;
-					})
-				);
-			}
+			pipe(
+				updateTask$(task),
+				TE.map((newTask) => {
+					return pipe(
+						tasks,
+						A.map((t) => (t.id === newTask.id ? newTask : t))
+					);
+				}),
+				TE.map((tasks) => {
+					updateTasks(tasks);
+				})
+			)();
 		}, delay);
 	};
 
 	const handleDeleteTask = async (task: Task) => {
-		const deletedTask = await deleteTask(task);
-		if (deletedTask) {
-			updateTasks(tasks.filter((t) => t.id !== deletedTask.id));
-		}
+		pipe(
+			deleteTask$(task),
+			TE.fold(
+				(error) => {
+					console.error(error);
+					return TE.left(error);
+				},
+				(deletedTask) => {
+					updateTasks(tasks.filter((t) => t.id !== deletedTask.id));
+					return TE.right(undefined);
+				}
+			)
+		)();
 	};
 
 	return (

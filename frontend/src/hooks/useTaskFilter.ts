@@ -1,42 +1,62 @@
 import { useMemo, useState } from "react";
 import { useTodoContext } from "./useTodoContext";
 import { Task, TaskPriority } from "../models/Task";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as Ord from "fp-ts/lib/Ord";
+import * as N from "fp-ts/number";
+import { flow, pipe } from "fp-ts/lib/function";
 
 export const useTaskFilter = () => {
 	const { tasks, filterCondition } = useTodoContext();
 
-	const filterCompleted = (tasks: Task[], isCompleted: boolean) => {
-		return tasks.filter((task) => task.isCompleted === isCompleted);
-	};
+	const byPriority = pipe(
+		N.Ord,
+		Ord.contramap((task: Task) => task.priority),
+		Ord.reverse
+	);
+
+	const sortTask = A.sort(byPriority);
 
 	const filterLabel = (tasks: Task[]) => {
-		if (filterCondition.label) {
-			return tasks.filter((task) => task.label.includes(filterCondition.label!));
-		}
-		return tasks;
+		return pipe(
+			O.fromNullable(filterCondition.label),
+			O.fold(
+				() => tasks,
+				(label) => A.filter((task: Task) => task.label.includes(label))(tasks)
+			)
+		);
+	};
+
+	const filterCompleted = (isCompleted: boolean) => {
+		return A.filter((task: Task) => task.isCompleted === isCompleted);
 	};
 
 	const filterPriority = (tasks: Task[]) => {
-		if (filterCondition.priority) {
-			return tasks.filter((task) => task.priority === filterCondition.priority);
-		}
-		return tasks;
+		return pipe(
+			O.fromNullable(filterCondition.priority),
+			O.fold(
+				() => tasks,
+				(priority) => {
+					if (priority === TaskPriority.UNSET) {
+						return tasks;
+					}
+					return A.filter<Task>((task) => task.priority === priority)(tasks);
+				}
+			)
+		);
 	};
 
-	const sortTask = (tasks: Task[]) => {
-		const cloneTasks = [...tasks];
-		cloneTasks.sort((a, b) => {
-			return b.priority - a.priority;
-		});
-		return cloneTasks;
+	const getDisplayTodoItems = (isCompleted: boolean) => {
+		return pipe(tasks, filterCompleted(isCompleted), filterLabel, filterPriority, sortTask);
 	};
 
 	const todoTasks = useMemo<Task[]>(() => {
-		return sortTask(filterPriority(filterLabel(filterCompleted(tasks, false))));
+		return getDisplayTodoItems(false);
 	}, [tasks, filterCondition]);
 
 	const completedTasks = useMemo<Task[]>(() => {
-		return sortTask(filterPriority(filterLabel(filterCompleted(tasks, true))));
+		return getDisplayTodoItems(true);
 	}, [tasks, filterCondition]);
 
 	return { todoTasks, completedTasks };

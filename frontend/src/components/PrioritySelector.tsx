@@ -7,6 +7,9 @@ import FlagRoundedIcon from "@mui/icons-material/FlagRounded";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { PriorityOption, TaskPriority } from "../models/Task";
+import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/Option";
+import { getOrElse } from "fp-ts/Option";
 
 interface Props {
 	defaultIcon?: React.ReactNode;
@@ -45,14 +48,17 @@ const PrioritySelector: React.FC<Props> = ({ defaultIcon, value, onChange, ...pr
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [priorityOption, setPriorityOption] = useState<PriorityOption>(taskPriorityOptions[0]);
 	const open = Boolean(anchorEl);
+
 	const displayIcon = useMemo(() => {
-		if (value) {
-			return taskPriorityOptionMapper[value].icon;
-		}
-		if (priorityOption.value === TaskPriority.UNSET) {
-			return defaultIcon || priorityOption.icon;
-		}
-		return priorityOption.icon;
+		return pipe(
+			O.fromNullable(value),
+			O.map((value) => taskPriorityOptionMapper[value]?.icon),
+			getOrElse(() =>
+				priorityOption.value === TaskPriority.UNSET
+					? defaultIcon ?? priorityOption.icon
+					: priorityOption.icon
+			)
+		);
 	}, [defaultIcon, priorityOption, value]);
 
 	const handleOpenMenu = (e: MouseEvent<HTMLElement>) => {

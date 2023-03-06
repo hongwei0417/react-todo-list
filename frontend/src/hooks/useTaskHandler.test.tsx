@@ -59,7 +59,7 @@ const deleteTodo = vi.spyOn(TodoApi as any, "deleteTodo").mockImplementation(() 
 describe("useTaskHandler test", () => {
 	test("Get all task from api", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.getAllTask();
+		const data = await result.current.getAllTask$();
 
 		expect(getAllTodos).toHaveBeenCalled();
 		expect(data.length).toBe(3);
@@ -67,7 +67,7 @@ describe("useTaskHandler test", () => {
 
 	test("Create task", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.createTask(task);
+		const data = await result.current.createTask$(task);
 
 		expect(createTodo).toHaveBeenCalled();
 		expect(data).toStrictEqual(task);
@@ -75,7 +75,7 @@ describe("useTaskHandler test", () => {
 
 	test("Update task", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.updateTask(task);
+		const data = await result.current.updateTask$(task);
 
 		expect(updateTodo).toHaveBeenCalled();
 		expect(data).toStrictEqual(task);
@@ -83,7 +83,7 @@ describe("useTaskHandler test", () => {
 
 	test("Delete task", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.deleteTask(task);
+		const data = await result.current.deleteTask$(task);
 
 		expect(deleteTodo).toHaveBeenCalled();
 		expect(data).toStrictEqual(task);

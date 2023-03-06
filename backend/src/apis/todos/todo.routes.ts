@@ -7,18 +7,6 @@ import { ParamsWithId } from "../../interfaces/ParamsWithId";
 const router = Router();
 
 //* GET
-/**
- * @openapi
- * /:
-		get:
-      tag:
-        - pet
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
-			responses:
-			200:
- *    	description: Returns a mysterious string.
- */
 router.get("/", TodoController.getAllTodos);
 router.get(
 	"/:id",
