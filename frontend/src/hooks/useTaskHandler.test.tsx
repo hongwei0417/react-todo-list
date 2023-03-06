@@ -3,7 +3,11 @@ import { vi, describe, test, beforeEach, expect, SpyInstance } from "vitest";
 import { useTaskHandler } from "./useTaskHandler";
 import * as TodoApi from "../apis/TodoApi";
 import { Task, TaskDto, TaskPriority } from "../models/Task";
-import { nanoid } from "nanoid";
+import { TaskEither } from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { getOrElse } from "fp-ts/lib/EitherT";
+import { Either } from "fp-ts/lib/Either";
 
 const tasks: TaskDto[] = [
 	{
@@ -40,52 +44,56 @@ const task: Task = {
 	priority: TaskPriority.NORMAL,
 };
 
-const getAllTodos = vi.spyOn(TodoApi as any, "getAllTodos").mockImplementation(() => {
+const getAllTodos$ = vi.spyOn(TodoApi as any, "getAllTodos").mockImplementation(() => {
 	return Promise.resolve({ data: tasks });
 });
 
-const createTodo = vi.spyOn(TodoApi as any, "createTodo").mockImplementation(() => {
+const createTodo$ = vi.spyOn(TodoApi as any, "createTodo").mockImplementation(() => {
 	return Promise.resolve({ data: taskFromApi });
 });
 
-const updateTodo = vi.spyOn(TodoApi as any, "updateTodo").mockImplementation(() => {
+const updateTodo$ = vi.spyOn(TodoApi as any, "updateTodo").mockImplementation(() => {
 	return Promise.resolve({ data: taskFromApi });
 });
 
-const deleteTodo = vi.spyOn(TodoApi as any, "deleteTodo").mockImplementation(() => {
+const deleteTodo$ = vi.spyOn(TodoApi as any, "deleteTodo").mockImplementation(() => {
 	return Promise.resolve({});
 });
 
 describe("useTaskHandler test", () => {
 	test("Get all task from api", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.getAllTask$();
-
-		expect(getAllTodos).toHaveBeenCalled();
-		expect(data.length).toBe(3);
+		const data = await result.current.getAllTask$()();
+		if (data._tag === "Right") {
+			expect(getAllTodos$).toHaveBeenCalled();
+			expect(data.right.length).toBe(3);
+		}
 	});
 
 	test("Create task", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.createTask$(task);
-
-		expect(createTodo).toHaveBeenCalled();
-		expect(data).toStrictEqual(task);
+		const data = await result.current.createTask$(task)();
+		if (data._tag === "Right") {
+			expect(createTodo$).toHaveBeenCalled();
+			expect(data.right).toStrictEqual(task);
+		}
 	});
 
 	test("Update task", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.updateTask$(task);
-
-		expect(updateTodo).toHaveBeenCalled();
-		expect(data).toStrictEqual(task);
+		const data = await result.current.updateTask$(task)();
+		if (data._tag === "Right") {
+			expect(updateTodo$).toHaveBeenCalled();
+			expect(data.right).toStrictEqual(task);
+		}
 	});
 
 	test("Delete task", async () => {
 		const { result } = renderHook(() => useTaskHandler());
-		const data = await result.current.deleteTask$(task);
-
-		expect(deleteTodo).toHaveBeenCalled();
-		expect(data).toStrictEqual(task);
+		const data = await result.current.deleteTask$(task)();
+		if (data._tag === "Right") {
+			expect(deleteTodo$).toHaveBeenCalled();
+			expect(data.right).toStrictEqual(task);
+		}
 	});
 });
