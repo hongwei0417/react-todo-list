@@ -28,7 +28,8 @@ app.get("/health", (req: Request, res: Response) => {
 app.use("/api", api);
 
 // Swagger page
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use("/", swaggerUi.serve);
+app.get("/", swaggerUi.setup(swaggerDoc));
 app.get("/api.json", (req: Request, res: Response) => {
 	res.setHeader("Content-Type", "application/json");
 	res.send(swaggerDoc);
