@@ -10,7 +10,7 @@ describe("GET /api", () => {
 			.expect(
 				200,
 				{
-					message: "API - 👋🌎🌍🌏",
+					message: "API WORK 😄👍",
 				},
 				done
 			);

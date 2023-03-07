@@ -21,13 +21,13 @@ app.use(express.json());
 
 app.get("/health", (req: Request, res: Response) => {
 	res.json({
-		message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
+		message: "🦢🐻🐍🐶🐱🦄🐧🐷🐬🐢🐵🐔",
 	});
 });
 
 app.use("/api", api);
 
-// Swagger page
+// Swagger Page
 app.use("/", swaggerUi.serve);
 app.get("/", swaggerUi.setup(swaggerDoc));
 app.get("/api.json", (req: Request, res: Response) => {

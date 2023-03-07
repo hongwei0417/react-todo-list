@@ -12,7 +12,7 @@ beforeAll(async () => {
 
 let id = "";
 describe("GET /api/todo", () => {
-	it("responds with a json message", (done) => {
+	it("Should responds with a json message", (done) => {
 		request(app)
 			.get("/api/todo")
 			.set("Accept", "application/json")
@@ -25,7 +25,7 @@ describe("GET /api/todo", () => {
 	});
 });
 describe("POST /api/todo", () => {
-	it("responds with an error if the todo is invalid", (done) => {
+	it("Should responds with an error if the todo is invalid", (done) => {
 		request(app)
 			.post("/api/todo")
 			.set("Accept", "application/json")
@@ -41,7 +41,7 @@ describe("POST /api/todo", () => {
 			});
 	});
 
-	it("responds with an inserted object", (done) => {
+	it("Should responds with an inserted object", (done) => {
 		request(app)
 			.post("/api/todo")
 			.set("Accept", "application/json")
@@ -62,7 +62,7 @@ describe("POST /api/todo", () => {
 });
 
 describe("GET /api/todo/:id", () => {
-	it("response with todo item by id", (done) => {
+	it("Should responses with todo item by id", (done) => {
 		request(app)
 			.get(`/api/todo/${id}`)
 			.set("Accept", "application/json")
@@ -79,7 +79,7 @@ describe("GET /api/todo/:id", () => {
 			});
 	});
 
-	it("response with invalid ObjectId error", (done) => {
+	it("Should responses with invalid objectId error", (done) => {
 		request(app)
 			.get(`/api/todo/xxxxxxxxxxx`)
 			.set("Accept", "application/json")
@@ -91,7 +91,7 @@ describe("GET /api/todo/:id", () => {
 			});
 	});
 
-	it("response with not found error", (done) => {
+	it("Should responses with not found error", (done) => {
 		request(app)
 			.get(`/api/todo/5400c221cadfeac85f4e63f8`)
 			.set("Accept", "application/json")
@@ -104,7 +104,7 @@ describe("GET /api/todo/:id", () => {
 });
 
 describe("PUT /api/todo/:id", () => {
-	it("response with todo item by id", (done) => {
+	it("Should responses with todo item by id", (done) => {
 		request(app)
 			.put(`/api/todo/${id}`)
 			.set("Accept", "application/json")
@@ -125,7 +125,7 @@ describe("PUT /api/todo/:id", () => {
 			});
 	});
 
-	it("response with invalid ObjectId error", (done) => {
+	it("Should responses with invalid objectId error", (done) => {
 		request(app)
 			.put(`/api/todo/xxxxxxxxxxx`)
 			.set("Accept", "application/json")
@@ -140,7 +140,7 @@ describe("PUT /api/todo/:id", () => {
 			});
 	});
 
-	it("response with not found error", (done) => {
+	it("Should responses with not found error", (done) => {
 		request(app)
 			.put(`/api/todo/5400c221cadfeac85f4e63f8`)
 			.set("Accept", "application/json")
@@ -157,7 +157,7 @@ describe("PUT /api/todo/:id", () => {
 });
 
 describe("DELETE /api/todo/:id", () => {
-	it("response with a 204 status code", (done) => {
+	it("Should responses with a 204 status code", (done) => {
 		request(app)
 			.delete(`/api/todo/${id}`)
 			.set("Accept", "application/json")
@@ -167,7 +167,7 @@ describe("DELETE /api/todo/:id", () => {
 			});
 	});
 
-	it("response with invalid ObjectId error", (done) => {
+	it("Should responses with invalid objectId error", (done) => {
 		request(app)
 			.delete(`/api/todo/xxxxxxxxxxx`)
 			.set("Accept", "application/json")
@@ -177,7 +177,7 @@ describe("DELETE /api/todo/:id", () => {
 			});
 	});
 
-	it("response with not found error", (done) => {
+	it("Should responses with not found error", (done) => {
 		request(app)
 			.delete(`/api/todo/5400c221cadfeac85f4e63f8`)
 			.set("Accept", "application/json")
@@ -188,7 +188,7 @@ describe("DELETE /api/todo/:id", () => {
 			});
 	});
 
-	it("response with not found error", (done) => {
+	it("Should responses with not found error", (done) => {
 		request(app)
 			.get(`/api/todo/${id}`)
 			.set("Accept", "application/json")
