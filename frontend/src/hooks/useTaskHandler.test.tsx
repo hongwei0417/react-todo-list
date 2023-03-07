@@ -3,13 +3,8 @@ import { vi, describe, test, beforeEach, expect, SpyInstance } from "vitest";
 import { useTaskHandler } from "./useTaskHandler";
 import * as TodoApi from "../apis/TodoApi";
 import { Task, TaskDto, TaskPriority } from "../models/Task";
-import { TaskEither } from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
-import * as TE from "fp-ts/TaskEither";
-import { getOrElse } from "fp-ts/lib/EitherT";
-import { Either } from "fp-ts/lib/Either";
 
-const tasks: TaskDto[] = [
+const fakeTasks: TaskDto[] = [
 	{
 		_id: "6402d82b4b7c9922aa4a7871",
 		label: "Hello Todo",
@@ -45,7 +40,7 @@ const task: Task = {
 };
 
 const getAllTodos$ = vi.spyOn(TodoApi as any, "getAllTodos").mockImplementation(() => {
-	return Promise.resolve({ data: tasks });
+	return Promise.resolve({ data: fakeTasks });
 });
 
 const createTodo$ = vi.spyOn(TodoApi as any, "createTodo").mockImplementation(() => {

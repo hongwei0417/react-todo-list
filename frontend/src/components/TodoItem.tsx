@@ -80,7 +80,7 @@ export const TodoItem: React.FC<Props> = ({ task, onChange, onDelete }) => {
 	return (
 		<ListItem
 			secondaryAction={
-				<IconButton edge="end" onClick={handleDeleteTask}>
+				<IconButton edge="end" onClick={handleDeleteTask} data-testid="deleteItemButton">
 					<DeleteIcon />
 				</IconButton>
 			}

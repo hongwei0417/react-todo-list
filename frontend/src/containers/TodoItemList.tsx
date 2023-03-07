@@ -16,10 +16,8 @@ import { pipe } from "fp-ts/lib/function";
 type Props = {};
 
 const Container = styled.div`
-	/* border: 1px solid green; */
 	height: 80%;
 	overflow: auto;
-	/* padding-right: 1rem; */
 `;
 
 const CategoryDivider = styled(Divider)`
@@ -37,12 +35,12 @@ export const TodoItemList: React.FC<Props> = ({}) => {
 		debounceTimer.current = setTimeout(async () => {
 			pipe(
 				updateTask$(task),
-				TE.map((newTask) => {
-					return pipe(
+				TE.map((newTask) =>
+					pipe(
 						tasks,
 						A.map((t) => (t.id === newTask.id ? newTask : t))
-					);
-				}),
+					)
+				),
 				TE.map((tasks) => {
 					updateTasks(tasks);
 				})

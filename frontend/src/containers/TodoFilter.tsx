@@ -1,4 +1,4 @@
-import Input from "@mui/material/Input";
+import Input, { InputProps } from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import styled from "styled-components";
@@ -16,7 +16,16 @@ const Container = styled.div`
 	justify-content: space-between;
 `;
 
-const SearchInput = styled(Input)``;
+const SearchInput = styled(
+	({ "data-testid": testId, ...rest }: InputProps & { "data-testid": string }) => (
+		<Input
+			{...rest}
+			inputProps={{
+				"data-testid": testId,
+			}}
+		/>
+	)
+)``;
 
 export const TodoFilter: React.FC<Props> = ({}) => {
 	const { filterCondition, updateFilterConditions } = useTodoContext();
