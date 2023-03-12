@@ -41,11 +41,11 @@ export const TodoFilter: React.FC<Props> = ({}) => {
 	}, [filterLabel, filterPriority]);
 
 	const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setFilterLabel((s) => e.target.value);
+		setFilterLabel(e.target.value);
 	};
 
 	const handlePrioritySelectorChange = (priority: TaskPriority) => {
-		setFilterPriority((p) => priority);
+		setFilterPriority(priority);
 	};
 
 	return (

@@ -7,7 +7,6 @@ console.log(import.meta.env);
 
 const TodoAPI = axios.create({
 	baseURL: `${BASE_API_URL}/api/todo`,
-	// withCredentials: true,
 });
 
 export const getAllTodos = () => TodoAPI.get<TaskDto[]>("/");

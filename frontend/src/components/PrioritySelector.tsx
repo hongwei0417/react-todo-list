@@ -9,7 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { PriorityOption, TaskPriority } from "../models/Task";
 import { pipe } from "fp-ts/function";
 import * as O from "fp-ts/Option";
-import { getOrElse } from "fp-ts/Option";
 
 interface Props {
 	defaultIcon?: React.ReactNode;
@@ -53,7 +52,7 @@ const PrioritySelector: React.FC<Props> = ({ defaultIcon, value, onChange, ...pr
 		return pipe(
 			O.fromNullable(value),
 			O.map((value) => taskPriorityOptionMapper[value]?.icon),
-			getOrElse(() =>
+			O.getOrElse(() =>
 				priorityOption.value === TaskPriority.UNSET
 					? defaultIcon ?? priorityOption.icon
 					: priorityOption.icon
@@ -66,9 +65,7 @@ const PrioritySelector: React.FC<Props> = ({ defaultIcon, value, onChange, ...pr
 	};
 
 	const handleChangeOption = (option: PriorityOption) => {
-		setPriorityOption((o) => {
-			return option;
-		});
+		setPriorityOption(option);
 		setAnchorEl(null);
 		onChange?.(option.value);
 	};

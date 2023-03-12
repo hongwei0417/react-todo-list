@@ -46,24 +46,18 @@ export default function TodoList() {
 		pipe(
 			getAllTask$(),
 			TE.fold(
-				(error) => {
-					console.error(error);
-					return TE.left(error);
-				},
-				(tasks) => {
-					handleUpdateTasks(tasks);
-					return TE.right(undefined);
-				}
+				(error) => TE.left(error),
+				(tasks) => TE.right(handleUpdateTasks(tasks))
 			)
 		)();
 	}, []);
 
 	const handleUpdateTasks = (tasks: Task[]) => {
-		setTasks((t) => tasks);
+		setTasks(tasks);
 	};
 
 	const handleFilterConditionChange = (condition: FilterCondition) => {
-		setFilterCondition((c) => condition);
+		setFilterCondition(condition);
 	};
 
 	const contextValue: TodoStore = {

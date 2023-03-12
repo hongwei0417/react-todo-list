@@ -30,36 +30,39 @@ export const TodoItemList: React.FC<Props> = ({}) => {
 	const { updateTask$, deleteTask$ } = useTaskHandler();
 	const debounceTimer = useRef<NodeJS.Timeout>();
 
+	const taskListWithUpdate = (newTask: Task) =>
+		pipe(
+			tasks,
+			A.map((t) => (t.id === newTask.id ? newTask : t))
+		);
+
+	const taskListWithDelete = (deletedTask: Task) =>
+		pipe(
+			tasks,
+			A.filter((t) => t.id !== deletedTask.id)
+		);
+
 	const handleChangeTask = (task: Task, delay: number = 0) => {
 		clearTimeout(debounceTimer.current);
-		debounceTimer.current = setTimeout(async () => {
+		debounceTimer.current = setTimeout(() => {
 			pipe(
 				updateTask$(task),
-				TE.map((newTask) =>
-					pipe(
-						tasks,
-						A.map((t) => (t.id === newTask.id ? newTask : t))
-					)
-				),
-				TE.map((tasks) => {
-					updateTasks(tasks);
-				})
+				TE.map(taskListWithUpdate),
+				TE.fold(
+					(error) => TE.left(error),
+					(tasks) => TE.right(updateTasks(tasks))
+				)
 			)();
 		}, delay);
 	};
 
-	const handleDeleteTask = async (task: Task) => {
+	const handleDeleteTask = (task: Task) => {
 		pipe(
 			deleteTask$(task),
+			TE.map(taskListWithDelete),
 			TE.fold(
-				(error) => {
-					console.error(error);
-					return TE.left(error);
-				},
-				(deletedTask) => {
-					updateTasks(tasks.filter((t) => t.id !== deletedTask.id));
-					return TE.right(undefined);
-				}
+				(error) => TE.left(error),
+				(tasks) => TE.right(updateTasks(tasks))
 			)
 		)();
 	};

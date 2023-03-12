@@ -81,10 +81,7 @@ export const TodoHeader: React.FC<Props> = ({}) => {
 		pipe(
 			createTask$(newTask),
 			TE.fold(
-				(error) => {
-					console.error(error);
-					return TE.left(error);
-				},
+				(error) => TE.left(error),
 				(resTask) => {
 					updateTasks([...tasks, resTask]);
 					setNewTask((task) => ({
