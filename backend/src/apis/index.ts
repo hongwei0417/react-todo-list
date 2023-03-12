@@ -1,7 +1,7 @@
 import express from "express";
 
 import MessageResponse from "../interfaces/MessageResponse";
-import todoRoutes from "./todos/todo.routes";
+import todoRoutes from "./todo/todo.routes";
 
 const router = express.Router();
 
