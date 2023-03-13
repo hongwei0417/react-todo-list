@@ -12,7 +12,7 @@ const task: Task = {
 };
 
 describe("TodoItem Component", () => {
-	test("Render Successful", () => {
+	test("Should render correctly.", () => {
 		render(<TodoItem task={task} />);
 		const checkbox = screen.getByRole("checkbox");
 		const buttons = screen.getAllByRole("button");
@@ -23,10 +23,9 @@ describe("TodoItem Component", () => {
 		expect(checkbox).toBeChecked();
 		expect(textbox).toBeInTheDocument();
 		expect(textbox).toHaveDisplayValue("Hello World");
-		// console.log(prettyDOM(a));
 	});
 
-	test("Check item should trigger onChange", () => {
+	test("Should trigger changes on check item.", () => {
 		const onChange = vi.fn();
 		render(<TodoItem task={task} onChange={onChange} />);
 		const checkbox = screen.getByRole("checkbox");
@@ -36,7 +35,7 @@ describe("TodoItem Component", () => {
 		expect(onChange).toHaveBeenCalledTimes(3);
 	});
 
-	test("Input label should trigger onChange", () => {
+	test("Should trigger changes on input text.", () => {
 		const onChange = vi.fn();
 		render(<TodoItem task={task} onChange={onChange} />);
 		const textbox = screen.getByRole("textbox");
@@ -49,7 +48,7 @@ describe("TodoItem Component", () => {
 		expect(textbox).toHaveDisplayValue("OK");
 	});
 
-	test("Click delete button should trigger onDelete", () => {
+	test("Should trigger delete on click delete button.", () => {
 		const onDelete = vi.fn();
 		render(<TodoItem task={task} onDelete={onDelete} />);
 		const button = screen.getAllByRole("button")[1];

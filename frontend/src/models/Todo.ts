@@ -1,9 +1,10 @@
 import { FilterCondition } from "./Filter";
 import { Task } from "./Task";
+import React from "react";
 
 export type TodoStore = {
 	tasks: Task[];
 	filterCondition: FilterCondition;
-	updateTasks: (tasks: Task[]) => void;
-	updateFilterConditions: (condition: FilterCondition) => void;
+	updateTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+	updateFilterConditions: React.Dispatch<React.SetStateAction<FilterCondition>>;
 };

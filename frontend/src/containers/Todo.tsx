@@ -9,7 +9,6 @@ import { TodoContext } from "../hooks/useTodoContext";
 import { Task } from "../models/Task";
 import { TodoStore } from "../models/Todo";
 import { FilterCondition } from "../models/Filter";
-import { getAllTodos } from "../apis/TodoApi";
 import { useTaskHandler } from "../hooks/useTaskHandler";
 import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/TaskEither";
@@ -47,24 +46,16 @@ export default function TodoList() {
 			getAllTask$(),
 			TE.fold(
 				(error) => TE.left(error),
-				(tasks) => TE.right(handleUpdateTasks(tasks))
+				(tasks) => TE.right(setTasks(tasks))
 			)
 		)();
 	}, []);
 
-	const handleUpdateTasks = (tasks: Task[]) => {
-		setTasks(tasks);
-	};
-
-	const handleFilterConditionChange = (condition: FilterCondition) => {
-		setFilterCondition(condition);
-	};
-
 	const contextValue: TodoStore = {
 		tasks,
 		filterCondition,
-		updateTasks: handleUpdateTasks,
-		updateFilterConditions: handleFilterConditionChange,
+		updateTasks: setTasks,
+		updateFilterConditions: setFilterCondition,
 	};
 
 	return (

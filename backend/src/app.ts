@@ -7,7 +7,6 @@ import { Express, Request, Response } from "express";
 
 import * as middlewares from "./middlewares";
 import api from "./apis";
-import MessageResponse from "./interfaces/MessageResponse";
 import { swaggerDoc } from "./utils/swagger";
 
 require("dotenv").config();

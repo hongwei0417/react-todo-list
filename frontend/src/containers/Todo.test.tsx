@@ -53,7 +53,7 @@ const deleteTodo$ = vi.spyOn(TodoApi as any, "deleteTodo").mockImplementation(()
 });
 
 describe("Todo Container", () => {
-	test("Render all components successful", async () => {
+	test("Should render correctly.", async () => {
 		render(<Todo />);
 
 		const title = screen.getByRole("heading");
@@ -73,7 +73,7 @@ describe("Todo Container", () => {
 		expect(todoItems.length).toEqual(fakeTasks.length);
 	});
 
-	test("Create a new task", async () => {
+	test("Should create a new task.", async () => {
 		render(<Todo />);
 
 		const headerInput = screen.getByTestId("addTaskInput");
@@ -90,7 +90,7 @@ describe("Todo Container", () => {
 		});
 	});
 
-	test("Filter tasks by label", async () => {
+	test("Should render items correctly on filter by text.", async () => {
 		render(<Todo />);
 
 		const filterKeywordInput = screen.getByTestId("filterKeywordInput");
@@ -105,7 +105,7 @@ describe("Todo Container", () => {
 		});
 	});
 
-	test("Filter tasks by priority", async () => {
+	test("Should render items correctly on filter by priority.", async () => {
 		render(<Todo />);
 
 		const filterPriorityButton = screen.getByTestId("filterPriorityButton");
@@ -121,7 +121,7 @@ describe("Todo Container", () => {
 		});
 	});
 
-	test("Delete one task", async () => {
+	test("Should render items correctly on delete one task.", async () => {
 		render(<Todo />);
 
 		await screen.findAllByRole("listitem");

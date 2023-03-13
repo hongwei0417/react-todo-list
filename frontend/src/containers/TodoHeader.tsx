@@ -45,7 +45,7 @@ const TaskInput = styled(
 const initialTask: Task = { id: "", label: "", priority: TaskPriority.UNSET, isCompleted: false };
 
 export const TodoHeader: React.FC<Props> = ({}) => {
-	const { tasks, updateTasks } = useTodoContext();
+	const { updateTasks } = useTodoContext();
 	const [newTask, setNewTask] = useState<Task>(initialTask);
 	const { createTask$ } = useTaskHandler();
 
@@ -83,7 +83,7 @@ export const TodoHeader: React.FC<Props> = ({}) => {
 			TE.fold(
 				(error) => TE.left(error),
 				(resTask) => {
-					updateTasks([...tasks, resTask]);
+					updateTasks((tasks) => [...tasks, resTask]);
 					setNewTask((task) => ({
 						...task,
 						label: "",

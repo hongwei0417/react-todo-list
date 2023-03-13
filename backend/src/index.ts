@@ -1,4 +1,3 @@
-import { client } from "./utils/db";
 import app from "./app";
 
 const port = process.env.PORT || 5000;

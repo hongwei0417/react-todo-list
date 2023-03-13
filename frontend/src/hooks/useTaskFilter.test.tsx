@@ -26,7 +26,7 @@ const tasks: Task[] = [
 	},
 ];
 
-describe("useTaskFilter test", () => {
+describe("useTaskFilter hook", () => {
 	let contextValue: TodoStore = {
 		tasks,
 		filterCondition: {},
@@ -43,7 +43,7 @@ describe("useTaskFilter test", () => {
 		};
 	});
 
-	test("Filter completed", () => {
+	test("Should get correct tasks depend on contextValue.", () => {
 		const wrapper = ({ children }: any) => (
 			<TodoContext.Provider value={contextValue}>{children}</TodoContext.Provider>
 		);
@@ -53,7 +53,7 @@ describe("useTaskFilter test", () => {
 		expect(result.current.completedTasks.length).toBe(1);
 	});
 
-	test("Filter label", () => {
+	test("Should get correct tasks on filter by text.", () => {
 		contextValue.filterCondition = {
 			label: "Typescript",
 		};
@@ -66,7 +66,7 @@ describe("useTaskFilter test", () => {
 		expect(result.current.completedTasks.length).toBe(1);
 	});
 
-	test("Filter priority", () => {
+	test("Should get correct tasks on filter by priority.", () => {
 		contextValue.filterCondition = {
 			priority: TaskPriority.NORMAL,
 		};

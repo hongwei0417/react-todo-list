@@ -8,8 +8,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import PrioritySelector from "./PrioritySelector";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import FolderIcon from "@mui/icons-material/Folder";
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useState } from "react";
 import { Task, TaskPriority } from "../models/Task";
 
@@ -19,20 +17,8 @@ type Props = {
 	onDelete?: (task: Task) => void;
 };
 
-const Container = styled(Paper)`
-	height: 70px;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 1rem;
-	&:not(:first-child):not(:last-child) {
-		margin: 1.5rem 0;
-	}
-`;
-
 const CheckInput = styled(Checkbox)`
 	& .MuiSvgIcon-root {
-		/* font-size: 2rem; */
 	}
 `;
 

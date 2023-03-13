@@ -55,8 +55,8 @@ const deleteTodo$ = vi.spyOn(TodoApi as any, "deleteTodo").mockImplementation(()
 	return Promise.resolve({});
 });
 
-describe("useTaskHandler test", () => {
-	test("Get all task from api", async () => {
+describe("useTaskHandler hook", () => {
+	test("Should get all task from mock api.", async () => {
 		const { result } = renderHook(() => useTaskHandler());
 		const data = await result.current.getAllTask$()();
 		if (data._tag === "Right") {
@@ -65,7 +65,7 @@ describe("useTaskHandler test", () => {
 		}
 	});
 
-	test("Create task", async () => {
+	test("Should create new task from mock api.", async () => {
 		const { result } = renderHook(() => useTaskHandler());
 		const data = await result.current.createTask$(task)();
 		if (data._tag === "Right") {
@@ -74,7 +74,7 @@ describe("useTaskHandler test", () => {
 		}
 	});
 
-	test("Update task", async () => {
+	test("Should update one task from mock api.", async () => {
 		const { result } = renderHook(() => useTaskHandler());
 		const data = await result.current.updateTask$(task)();
 		if (data._tag === "Right") {
@@ -83,7 +83,7 @@ describe("useTaskHandler test", () => {
 		}
 	});
 
-	test("Delete task", async () => {
+	test("Should delete one task from mock api.", async () => {
 		const { result } = renderHook(() => useTaskHandler());
 		const data = await result.current.deleteTask$(task)();
 		if (data._tag === "Right") {

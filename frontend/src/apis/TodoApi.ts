@@ -3,8 +3,6 @@ import { Task, TaskDto } from "../models/Task";
 
 export const BASE_API_URL = import.meta.env.VITE_BASE_API || "http://localhost:8080";
 
-console.log(import.meta.env);
-
 const TodoAPI = axios.create({
 	baseURL: `${BASE_API_URL}/api/todo`,
 });

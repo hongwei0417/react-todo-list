@@ -30,13 +30,13 @@ describe("POST /api/todo", () => {
 			.post("/api/todo")
 			.set("Accept", "application/json")
 			.send({
-				label: "",
+				label: 123,
+				isCompleted: "ABC",
+				priority: 100,
 			})
 			.expect("Content-Type", /json/)
-			.expect(201)
+			.expect(422)
 			.then((response) => {
-				console.log(response.body.message);
-				expect(response.body).toHaveProperty("_id");
 				done();
 			});
 	});
@@ -157,7 +157,7 @@ describe("PUT /api/todo/:id", () => {
 });
 
 describe("DELETE /api/todo/:id", () => {
-	it("Should responses with a 204 status code", (done) => {
+	it("Should responses with no content", (done) => {
 		request(app)
 			.delete(`/api/todo/${id}`)
 			.set("Accept", "application/json")
@@ -181,7 +181,6 @@ describe("DELETE /api/todo/:id", () => {
 		request(app)
 			.delete(`/api/todo/5400c221cadfeac85f4e63f8`)
 			.set("Accept", "application/json")
-
 			.expect(404)
 			.then((response) => {
 				done();

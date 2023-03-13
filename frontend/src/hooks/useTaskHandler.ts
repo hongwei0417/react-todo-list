@@ -1,9 +1,8 @@
-import { nanoid } from "nanoid";
 import { createTodo, deleteTodo, getAllTodos, updateTodo } from "../apis/TodoApi";
 import { Task, TaskDto } from "../models/Task";
-import { useTodoContext } from "./useTodoContext";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
+import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 
 export const useTaskHandler = () => {
@@ -14,45 +13,33 @@ export const useTaskHandler = () => {
 		priority: task.priority,
 	});
 
+	const taskDtoListMapper = A.map<TaskDto, Task>(taskDtoMapper);
+
 	const getAllTask$ = (): TE.TaskEither<Error, Task[]> =>
 		pipe(
-			TE.tryCatch(
-				() => getAllTodos(),
-				(reason) => new Error(String(reason))
-			),
-			TE.map((res) => A.map<TaskDto, Task>(taskDtoMapper)(res.data))
+			TE.tryCatch(() => getAllTodos(), E.toError),
+			TE.map((res) => res.data),
+			TE.map(taskDtoListMapper)
 		);
 
 	const createTask$ = (task: Task): TE.TaskEither<Error, Task> =>
 		pipe(
-			TE.tryCatch(
-				() => createTodo(task),
-				(reason) => new Error(String(reason))
-			),
+			TE.tryCatch(() => createTodo(task), E.toError),
 			TE.map((res) => res.data),
 			TE.map(taskDtoMapper)
 		);
 
 	const updateTask$ = (task: Task): TE.TaskEither<Error, Task> =>
 		pipe(
-			TE.tryCatch(
-				() => updateTodo(task.id, task),
-				(reason) => new Error(String(reason))
-			),
+			TE.tryCatch(() => updateTodo(task.id, task), E.toError),
 			TE.map((res) => res.data),
 			TE.map(taskDtoMapper)
 		);
 
 	const deleteTask$ = (task: Task): TE.TaskEither<Error, Task> =>
 		pipe(
-			TE.tryCatch(
-				() => deleteTodo(task.id),
-				(reason) => new Error(String(reason))
-			),
-			TE.map(() => task),
-			TE.mapLeft((error) => {
-				throw error;
-			})
+			TE.tryCatch(() => deleteTodo(task.id), E.toError),
+			TE.map(() => task)
 		);
 
 	return {

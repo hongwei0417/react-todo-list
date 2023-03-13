@@ -28,16 +28,16 @@ const SearchInput = styled(
 )``;
 
 export const TodoFilter: React.FC<Props> = ({}) => {
-	const { filterCondition, updateFilterConditions } = useTodoContext();
+	const { updateFilterConditions } = useTodoContext();
 	const [filterLabel, setFilterLabel] = useState<string>("");
 	const [filterPriority, setFilterPriority] = useState<TaskPriority>(TaskPriority.UNSET);
 
 	useEffect(() => {
-		updateFilterConditions({
+		updateFilterConditions((filterCondition) => ({
 			...filterCondition,
 			label: filterLabel,
 			priority: filterPriority,
-		});
+		}));
 	}, [filterLabel, filterPriority]);
 
 	const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {

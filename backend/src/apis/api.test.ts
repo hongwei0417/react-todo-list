@@ -2,7 +2,7 @@ import app from "../app";
 import request from "supertest";
 
 describe("GET /api", () => {
-	it("responds with a json message", (done) => {
+	it("Should responds with a api work message.", (done) => {
 		request(app)
 			.get("/api")
 			.set("Accept", "application/json")

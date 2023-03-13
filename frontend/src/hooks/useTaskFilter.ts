@@ -28,12 +28,11 @@ export const useTaskFilter = () => {
 		);
 	};
 
-	const filterCompleted = (isCompleted: boolean) => {
-		return A.filter((task: Task) => task.isCompleted === isCompleted);
-	};
+	const filterCompleted = (isCompleted: boolean) =>
+		A.filter((task: Task) => task.isCompleted === isCompleted);
 
-	const filterPriority = (tasks: Task[]) => {
-		return pipe(
+	const filterPriority = (tasks: Task[]) =>
+		pipe(
 			O.fromNullable(filterCondition.priority),
 			O.fold(
 				() => tasks,
@@ -45,11 +44,9 @@ export const useTaskFilter = () => {
 				}
 			)
 		);
-	};
 
-	const getDisplayTodoItems = (isCompleted: boolean) => {
-		return pipe(tasks, filterCompleted(isCompleted), filterLabel, filterPriority, sortTask);
-	};
+	const getDisplayTodoItems = (isCompleted: boolean) =>
+		pipe(tasks, filterCompleted(isCompleted), filterLabel, filterPriority, sortTask);
 
 	const todoTasks = useMemo<Task[]>(() => {
 		return getDisplayTodoItems(false);

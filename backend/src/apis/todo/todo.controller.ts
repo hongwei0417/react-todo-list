@@ -78,7 +78,7 @@ export const createTodo = (
 				res.status(201);
 				return TE.right(result);
 			}
-			return TE.left(new Error("Error"));
+			return TE.left(new Error("Create Error"));
 		})
 	);
 

@@ -25,18 +25,18 @@ const CategoryDivider = styled(Divider)`
 `;
 
 export const TodoItemList: React.FC<Props> = ({}) => {
-	const { tasks, updateTasks } = useTodoContext();
+	const { updateTasks } = useTodoContext();
 	const { todoTasks, completedTasks } = useTaskFilter();
 	const { updateTask$, deleteTask$ } = useTaskHandler();
 	const debounceTimer = useRef<NodeJS.Timeout>();
 
-	const taskListWithUpdate = (newTask: Task) =>
+	const taskListWithUpdate = (updatedTask: Task) => (tasks: Task[]) =>
 		pipe(
 			tasks,
-			A.map((t) => (t.id === newTask.id ? newTask : t))
+			A.map((t) => (t.id === updatedTask.id ? updatedTask : t))
 		);
 
-	const taskListWithDelete = (deletedTask: Task) =>
+	const taskListWithDelete = (deletedTask: Task) => (tasks: Task[]) =>
 		pipe(
 			tasks,
 			A.filter((t) => t.id !== deletedTask.id)
@@ -47,10 +47,9 @@ export const TodoItemList: React.FC<Props> = ({}) => {
 		debounceTimer.current = setTimeout(() => {
 			pipe(
 				updateTask$(task),
-				TE.map(taskListWithUpdate),
 				TE.fold(
 					(error) => TE.left(error),
-					(tasks) => TE.right(updateTasks(tasks))
+					(task) => TE.right(updateTasks(taskListWithUpdate(task)))
 				)
 			)();
 		}, delay);
@@ -59,10 +58,9 @@ export const TodoItemList: React.FC<Props> = ({}) => {
 	const handleDeleteTask = (task: Task) => {
 		pipe(
 			deleteTask$(task),
-			TE.map(taskListWithDelete),
 			TE.fold(
 				(error) => TE.left(error),
-				(tasks) => TE.right(updateTasks(tasks))
+				(task) => TE.right(updateTasks(taskListWithDelete(task)))
 			)
 		)();
 	};

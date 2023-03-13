@@ -6,7 +6,7 @@ import { TaskPriority } from "../models/Task";
 const options = Object.values(TaskPriority);
 
 describe("PrioritySelector Component", () => {
-	test("Should show four options on open", () => {
+	test("Should show four options on open.", () => {
 		render(<PrioritySelector />);
 		const openButton = screen.getByRole("button");
 		fireEvent.click(openButton);
@@ -16,7 +16,7 @@ describe("PrioritySelector Component", () => {
 		}
 	});
 
-	test("Should trigger onChange when select the option", () => {
+	test("Should trigger onChange when select the option.", () => {
 		const onChange = vi.fn();
 		render(<PrioritySelector onChange={onChange} />);
 		const openButton = screen.getByRole("button");
