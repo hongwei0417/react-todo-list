@@ -11,15 +11,17 @@ https://hongwei0417.github.io/react-todo-list/
 - Mongo Altas
 - Vitest
 - Jest
-- axios
+- Axios
+- Zod
 - fp-ts
+- Styled-components
 
 ## Frontend
 
 ### File Sturcture
 
 - `apis`: Backend endpoints
-- `components`: Reusable dumb components
+- `components`: Dumb components
 - `containers`: Smart components
 - `hooks`: Handlers
 - `models`: View-Model & DTO
@@ -31,11 +33,11 @@ https://hongwei0417.github.io/react-todo-list/
 ### File Sturcture
 
 - `apis`: Backend Features
-    #### **each feature may has below files**
-    - controller
-    - model
-    - routes
-    - test
+    #### **Each feature may has below files**
+    - `controller`
+    - `model`
+    - `routes`
+    - `test`
 
 - `interfaces`
 - `utils`
