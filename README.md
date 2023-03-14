@@ -24,7 +24,7 @@ https://hongwei0417.github.io/react-todo-list/
 - `components`: Dumb components
 - `containers`: Smart components
 - `hooks`: Handlers
-- `models`: View-Model & DTO
+- `models`: View-Model & Dto
 
 ![image](https://user-images.githubusercontent.com/22143306/224523850-da60dec9-f44f-4daf-b25b-1f1d394b5636.png)
 
